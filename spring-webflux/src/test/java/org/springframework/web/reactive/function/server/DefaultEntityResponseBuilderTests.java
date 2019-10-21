@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Single;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -90,7 +90,8 @@ public class DefaultEntityResponseBuilderTests {
 		String body = "foo";
 		Mono<EntityResponse<String>> result = EntityResponse.fromObject(body).status(HttpStatus.CREATED).build();
 		StepVerifier.create(result)
-				.expectNextMatches(response -> HttpStatus.CREATED.equals(response.statusCode()))
+				.expectNextMatches(response -> HttpStatus.CREATED.equals(response.statusCode()) &&
+						response.rawStatusCode() == 201)
 				.expectComplete()
 				.verify();
 	}
